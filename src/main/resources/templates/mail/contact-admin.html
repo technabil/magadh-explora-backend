@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>New contact submission</title></head>
+<body style="font-family: Arial, Helvetica, sans-serif; color: #1a1a1a; max-width: 600px; margin: 0 auto; padding: 24px;">
+
+  <h2 style="margin: 0 0 16px 0; color: #c97b3a;">New contact submission</h2>
+
+  <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+    <tr><td style="padding: 6px 0; color: #666; width: 120px;">Name</td><td style="padding: 6px 0;" th:text="${contact.name}">Name</td></tr>
+    <tr><td style="padding: 6px 0; color: #666;">Email</td><td style="padding: 6px 0;"><a th:href="'mailto:' + ${contact.email}" th:text="${contact.email}">email</a></td></tr>
+    <tr><td style="padding: 6px 0; color: #666;">Phone</td><td style="padding: 6px 0;" th:text="${contact.mobile ?: '—'}">—</td></tr>
+    <tr><td style="padding: 6px 0; color: #666;">Subject</td><td style="padding: 6px 0;" th:text="${contact.subject ?: '—'}">—</td></tr>
+  </table>
+
+  <div style="background: #f8f8f8; padding: 14px 18px;">
+    <p style="margin: 0; white-space: pre-wrap;" th:text="${contact.message}">message</p>
+  </div>
+
+  <p style="margin-top: 24px; font-size: 13px; color: #888;">View in admin: <a href="/admin/queries/contacts">Contacts queue</a></p>
+</body>
+</html>

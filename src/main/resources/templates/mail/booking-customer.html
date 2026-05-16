@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Booking received</title></head>
+<body style="font-family: Arial, Helvetica, sans-serif; color: #1a1a1a; max-width: 600px; margin: 0 auto; padding: 24px;">
+
+  <div style="border-bottom: 3px solid #c97b3a; padding-bottom: 12px; margin-bottom: 24px;">
+    <h1 style="margin: 0; font-size: 22px; color: #c97b3a;" th:text="${brand}">Magadh Explora</h1>
+  </div>
+
+  <p>Hi <strong th:text="${booking.name}">there</strong>,</p>
+
+  <p>Your booking is in! Reference: <strong th:text="${'#' + booking.id}">#1</strong>. Our team will confirm availability and reach out with payment instructions within 24 hours.</p>
+
+  <h3 style="margin: 24px 0 8px;">Booking summary</h3>
+  <table style="width: 100%; border-collapse: collapse;">
+    <tr><td style="padding: 4px 0; color: #666; width: 160px;">Travelers</td><td style="padding: 4px 0;" th:text="${booking.numTravelers}">2</td></tr>
+    <tr><td style="padding: 4px 0; color: #666;">Travel date</td><td style="padding: 4px 0;" th:text="${booking.travelDate ?: 'TBD'}">—</td></tr>
+    <tr><td style="padding: 4px 0; color: #666;">Total</td><td style="padding: 4px 0;">
+        <span th:text="${booking.currency} + ' ' + ${booking.totalAmountLocal}">INR 0</span>
+    </td></tr>
+    <tr><td style="padding: 4px 0; color: #666;">Status</td><td style="padding: 4px 0;" th:text="${booking.status}">PENDING</td></tr>
+  </table>
+
+  <p style="margin-top: 24px;">Questions? Reply to this email or call us at <strong>+91 98765 43210</strong>.</p>
+
+  <p style="margin-top: 24px;">Warm regards,<br><span th:text="${brand}">Magadh Explora</span> team</p>
+</body>
+</html>

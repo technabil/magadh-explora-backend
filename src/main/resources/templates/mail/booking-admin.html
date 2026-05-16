@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>New booking</title></head>
+<body style="font-family: Arial, Helvetica, sans-serif; color: #1a1a1a; max-width: 600px; margin: 0 auto; padding: 24px;">
+
+  <h2 style="margin: 0 0 16px 0; color: #c97b3a;">New booking received</h2>
+
+  <table style="width: 100%; border-collapse: collapse; margin-bottom: 16px;">
+    <tr><td style="padding: 4px 0; color: #666; width: 140px;">Booking #</td><td style="padding: 4px 0;" th:text="${booking.id}">1</td></tr>
+    <tr><td style="padding: 4px 0; color: #666;">Package id</td><td style="padding: 4px 0;" th:text="${booking.packageId}">—</td></tr>
+    <tr><td style="padding: 4px 0; color: #666;">Name</td><td style="padding: 4px 0;" th:text="${booking.name}">Name</td></tr>
+    <tr><td style="padding: 4px 0; color: #666;">Email</td><td style="padding: 4px 0;"><a th:href="'mailto:' + ${booking.email}" th:text="${booking.email}">email</a></td></tr>
+    <tr><td style="padding: 4px 0; color: #666;">Phone</td><td style="padding: 4px 0;" th:text="${booking.mobile ?: '—'}">—</td></tr>
+    <tr><td style="padding: 4px 0; color: #666;">Travelers</td><td style="padding: 4px 0;" th:text="${booking.numTravelers}">2</td></tr>
+    <tr><td style="padding: 4px 0; color: #666;">Travel date</td><td style="padding: 4px 0;" th:text="${booking.travelDate ?: 'TBD'}">—</td></tr>
+    <tr><td style="padding: 4px 0; color: #666;">Amount (INR)</td><td style="padding: 4px 0;" th:text="${booking.totalAmountInr}">0</td></tr>
+    <tr><td style="padding: 4px 0; color: #666;">Amount (local)</td><td style="padding: 4px 0;">
+        <span th:text="${booking.currency} + ' ' + ${booking.totalAmountLocal}">INR 0</span>
+    </td></tr>
+  </table>
+
+  <p style="margin-top: 24px; font-size: 13px; color: #888;">View in admin: <a href="/admin/queries/bookings">Bookings queue</a></p>
+</body>
+</html>

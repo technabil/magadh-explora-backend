@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>New quote request</title></head>
+<body style="font-family: Arial, Helvetica, sans-serif; color: #1a1a1a; max-width: 600px; margin: 0 auto; padding: 24px;">
+
+  <h2 style="margin: 0 0 16px 0; color: #c97b3a;">New quote request</h2>
+
+  <table style="width: 100%; border-collapse: collapse; margin-bottom: 16px;">
+    <tr><td style="padding: 4px 0; color: #666; width: 140px;">Name</td><td style="padding: 4px 0;" th:text="${quote.name}">Name</td></tr>
+    <tr><td style="padding: 4px 0; color: #666;">Email</td><td style="padding: 4px 0;"><a th:href="'mailto:' + ${quote.email}" th:text="${quote.email}">email</a></td></tr>
+    <tr><td style="padding: 4px 0; color: #666;">Phone</td><td style="padding: 4px 0;" th:text="${quote.mobile ?: '—'}">—</td></tr>
+    <tr><td style="padding: 4px 0; color: #666;">Country</td><td style="padding: 4px 0;" th:text="${quote.country ?: '—'}">—</td></tr>
+  </table>
+
+  <table style="width: 100%; border-collapse: collapse; margin-bottom: 16px;">
+    <tr><td style="padding: 4px 0; color: #666; width: 140px;">Traveler type</td><td style="padding: 4px 0;" th:text="${quote.travelerType ?: '—'}">—</td></tr>
+    <tr><td style="padding: 4px 0; color: #666;">Tier</td><td style="padding: 4px 0;" th:text="${quote.packageTier ?: '—'}">—</td></tr>
+    <tr><td style="padding: 4px 0; color: #666;">Destinations</td><td style="padding: 4px 0;" th:text="${quote.destinations ?: '—'}">—</td></tr>
+    <tr><td style="padding: 4px 0; color: #666;">Travel date</td><td style="padding: 4px 0;" th:text="${quote.travelDate ?: '—'}">—</td></tr>
+    <tr><td style="padding: 4px 0; color: #666;">Group size</td><td style="padding: 4px 0;" th:text="${quote.numTravelers ?: '—'}">—</td></tr>
+    <tr><td style="padding: 4px 0; color: #666;">Budget</td><td style="padding: 4px 0;" th:text="${quote.budget ?: '—'}">—</td></tr>
+  </table>
+
+  <div th:if="${quote.message}" style="background: #f8f8f8; padding: 14px 18px;">
+    <p style="margin: 0 0 4px 0; font-size: 12px; color: #666;">Special requirements</p>
+    <p style="margin: 0; white-space: pre-wrap;" th:text="${quote.message}">notes</p>
+  </div>
+
+  <p style="margin-top: 24px; font-size: 13px; color: #888;">View in admin: <a href="/admin/queries/quotes">Quotes queue</a></p>
+</body>
+</html>
