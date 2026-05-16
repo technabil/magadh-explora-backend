@@ -46,8 +46,32 @@ public class BookingEntity {
     @Column(name = "total_amount_local", nullable = false, precision = 12, scale = 2)
     private BigDecimal totalAmountLocal = BigDecimal.ZERO;
 
+    @Column(name = "payment_method", length = 40)
+    private String paymentMethod;
+
     @Column(nullable = false, length = 32)
-    private String status = "PENDING";
+    private String status = "NEW";
+
+    @Column(name = "payment_status", nullable = false, length = 32)
+    private String paymentStatus = "UNPAID";
+
+    @Column(name = "cancellation_reason", length = 500)
+    private String cancellationReason;
+
+    @Column(name = "internal_notes", columnDefinition = "TEXT")
+    private String internalNotes;
+
+    @Column(name = "cancelled_at")
+    private Instant cancelledAt;
+
+    @Column(name = "confirmed_at")
+    private Instant confirmedAt;
+
+    @Column(name = "paid_at")
+    private Instant paidAt;
+
+    @Column(name = "view_token", nullable = false, unique = true, length = 64)
+    private String viewToken;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -90,8 +114,32 @@ public class BookingEntity {
     public BigDecimal getTotalAmountLocal() { return totalAmountLocal; }
     public void setTotalAmountLocal(BigDecimal totalAmountLocal) { this.totalAmountLocal = totalAmountLocal; }
 
+    public String getPaymentMethod() { return paymentMethod; }
+    public void setPaymentMethod(String paymentMethod) { this.paymentMethod = paymentMethod; }
+
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+
+    public String getPaymentStatus() { return paymentStatus; }
+    public void setPaymentStatus(String paymentStatus) { this.paymentStatus = paymentStatus; }
+
+    public String getCancellationReason() { return cancellationReason; }
+    public void setCancellationReason(String cancellationReason) { this.cancellationReason = cancellationReason; }
+
+    public String getInternalNotes() { return internalNotes; }
+    public void setInternalNotes(String internalNotes) { this.internalNotes = internalNotes; }
+
+    public Instant getCancelledAt() { return cancelledAt; }
+    public void setCancelledAt(Instant cancelledAt) { this.cancelledAt = cancelledAt; }
+
+    public Instant getConfirmedAt() { return confirmedAt; }
+    public void setConfirmedAt(Instant confirmedAt) { this.confirmedAt = confirmedAt; }
+
+    public Instant getPaidAt() { return paidAt; }
+    public void setPaidAt(Instant paidAt) { this.paidAt = paidAt; }
+
+    public String getViewToken() { return viewToken; }
+    public void setViewToken(String viewToken) { this.viewToken = viewToken; }
 
     public Instant getCreatedAt() { return createdAt; }
     public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }

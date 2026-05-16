@@ -73,6 +73,13 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<!-- HTML → PDF (Flying Saucer + OpenPDF) -->
+		<dependency>
+			<groupId>org.xhtmlrenderer</groupId>
+			<artifactId>flying-saucer-pdf-openpdf</artifactId>
+			<version>9.4.0</version>
+		</dependency>
+
 		<!-- JWT (JJWT) -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>

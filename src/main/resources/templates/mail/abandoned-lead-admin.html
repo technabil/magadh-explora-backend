@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>New abandoned lead</title></head>
+<body style="font-family: Arial, Helvetica, sans-serif; color: #1a1a1a; max-width: 600px; margin: 0 auto; padding: 24px; background: #ffffff;">
+
+  <div style="border-bottom: 3px solid #c97b3a; padding-bottom: 12px; margin-bottom: 24px;">
+    <h1 style="margin: 0; font-size: 22px; color: #c97b3a;">⚠ Lead worth following up</h1>
+  </div>
+
+  <p>
+    Someone started filling a form on the site but didn't submit. They left
+    contact info — a personal follow-up could win this booking.
+  </p>
+
+  <h3 style="margin: 24px 0 8px; color: #c97b3a;">Their details</h3>
+  <table style="width: 100%; border-collapse: collapse;">
+    <tr><td style="padding: 6px 0; color: #666; width: 140px;">Name</td>
+        <td th:text="${lead.name ?: '(not provided)'}">—</td></tr>
+    <tr><td style="padding: 6px 0; color: #666;">Email</td>
+        <td><a th:href="'mailto:' + ${lead.email}" th:text="${lead.email}" style="color: #c97b3a;">—</a></td></tr>
+    <tr th:if="${lead.mobile}"><td style="padding: 6px 0; color: #666;">Phone</td>
+        <td><a th:href="'tel:' + ${lead.mobile}" th:text="${lead.mobile}" style="color: #c97b3a;">—</a></td></tr>
+    <tr><td style="padding: 6px 0; color: #666;">Source</td>
+        <td th:text="${lead.source}">—</td></tr>
+    <tr><td style="padding: 6px 0; color: #666;">When</td>
+        <td th:text="${#temporals.format(lead.createdAt, 'dd MMM yyyy, HH:mm')}">—</td></tr>
+  </table>
+
+  <div th:if="${lead.formState != null and !#strings.isEmpty(lead.formState)}"
+       style="margin-top: 16px; padding: 12px; background: #faf4ec; border-radius: 6px;
+              font-family: monospace; font-size: 12px; color: #4d3a26;
+              white-space: pre-wrap; word-break: break-word;">
+    <strong style="display: block; margin-bottom: 6px;">Partial form state:</strong>
+    <span th:text="${lead.formState}">—</span>
+  </div>
+
+  <div style="margin: 28px 0; text-align: center;">
+    <a th:href="${adminUrl} + '/admin/queries/abandoned'"
+       style="display: inline-block; padding: 12px 24px; background: #c97b3a; color: #ffffff;
+              text-decoration: none; border-radius: 8px; font-weight: 700; font-size: 14px;">
+      Open Abandoned Leads
+    </a>
+  </div>
+
+  <p style="font-size: 12px; color: #888;">
+    This notification is sent automatically when a visitor enters a valid email
+    and at least one other field, then leaves without submitting.
+  </p>
+
+</body>
+</html>

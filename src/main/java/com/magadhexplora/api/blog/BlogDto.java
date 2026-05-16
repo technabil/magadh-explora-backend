@@ -1,9 +1,13 @@
 package com.magadhexplora.api.blog;
 
+import com.magadhexplora.api.catalog.category.CategoryDto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 public class BlogDto {
     private Long id;
@@ -30,6 +34,12 @@ public class BlogDto {
 
     private Instant createdAt;
     private Instant updatedAt;
+
+    /** Read-only: full categories the blog belongs to. */
+    private List<CategoryDto> categories = new ArrayList<>();
+
+    /** Write-only: IDs supplied by admin when saving. */
+    private List<Long> categoryIds = new ArrayList<>();
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -64,6 +74,12 @@ public class BlogDto {
     public Instant getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(Instant updatedAt) { this.updatedAt = updatedAt; }
 
+    public List<CategoryDto> getCategories() { return categories; }
+    public void setCategories(List<CategoryDto> categories) { this.categories = categories; }
+
+    public List<Long> getCategoryIds() { return categoryIds; }
+    public void setCategoryIds(List<Long> categoryIds) { this.categoryIds = categoryIds; }
+
     public static BlogDto from(BlogEntity e) {
         BlogDto d = new BlogDto();
         d.id = e.getId();
@@ -77,6 +93,11 @@ public class BlogDto {
         d.published = e.isPublished();
         d.createdAt = e.getCreatedAt();
         d.updatedAt = e.getUpdatedAt();
+        d.categories = (e.getCategories() == null ? new ArrayList<CategoryDto>() :
+                e.getCategories().stream()
+                        .map(CategoryDto::from)
+                        .sorted(Comparator.comparing(CategoryDto::getName, Comparator.nullsLast(String::compareTo)))
+                        .toList());
         return d;
     }
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head><meta charset="UTF-8"><title>Booking received</title></head>
-<body style="font-family: Arial, Helvetica, sans-serif; color: #1a1a1a; max-width: 600px; margin: 0 auto; padding: 24px;">
+<body style="font-family: Arial, Helvetica, sans-serif; color: #1a1a1a; max-width: 600px; margin: 0 auto; padding: 24px; background: #ffffff;">
 
   <div style="border-bottom: 3px solid #c97b3a; padding-bottom: 12px; margin-bottom: 24px;">
     <h1 style="margin: 0; font-size: 22px; color: #c97b3a;" th:text="${brand}">Magadh Explora</h1>
@@ -11,15 +11,35 @@
 
   <p>Your booking is in! Reference: <strong th:text="${'#' + booking.id}">#1</strong>. Our team will confirm availability and reach out with payment instructions within 24 hours.</p>
 
-  <h3 style="margin: 24px 0 8px;">Booking summary</h3>
+  <!-- View Booking primary CTA -->
+  <div style="margin: 28px 0; text-align: center;">
+    <a th:href="${viewBookingUrl}"
+       style="display: inline-block; padding: 14px 28px; background: #c97b3a; color: #ffffff;
+              text-decoration: none; border-radius: 8px; font-weight: 700; font-size: 15px;">
+      View My Booking
+    </a>
+    <p style="font-size: 12px; color: #888888; margin: 12px 0 0;">
+      Bookmark this link to check your booking status anytime — no login needed.
+    </p>
+  </div>
+
+  <h3 style="margin: 24px 0 8px; color: #c97b3a;">Booking summary</h3>
   <table style="width: 100%; border-collapse: collapse;">
-    <tr><td style="padding: 4px 0; color: #666; width: 160px;">Travelers</td><td style="padding: 4px 0;" th:text="${booking.numTravelers}">2</td></tr>
-    <tr><td style="padding: 4px 0; color: #666;">Travel date</td><td style="padding: 4px 0;" th:text="${booking.travelDate ?: 'TBD'}">—</td></tr>
-    <tr><td style="padding: 4px 0; color: #666;">Total</td><td style="padding: 4px 0;">
+    <tr><td style="padding: 6px 0; color: #666; width: 160px;">Booking ID</td><td style="padding: 6px 0;" th:text="${'#' + booking.id}">#1</td></tr>
+    <tr><td style="padding: 6px 0; color: #666;">Travelers</td><td style="padding: 6px 0;" th:text="${booking.numTravelers}">2</td></tr>
+    <tr><td style="padding: 6px 0; color: #666;">Travel date</td><td style="padding: 6px 0;" th:text="${booking.travelDate ?: 'TBD'}">—</td></tr>
+    <tr><td style="padding: 6px 0; color: #666;">Total</td><td style="padding: 6px 0;">
         <span th:text="${booking.currency} + ' ' + ${booking.totalAmountLocal}">INR 0</span>
     </td></tr>
-    <tr><td style="padding: 4px 0; color: #666;">Status</td><td style="padding: 4px 0;" th:text="${booking.status}">PENDING</td></tr>
+    <tr th:if="${booking.paymentMethod}"><td style="padding: 6px 0; color: #666;">Payment</td><td style="padding: 6px 0;" th:text="${#strings.replace(booking.paymentMethod, '_', ' ')}">PAY LATER</td></tr>
+    <tr><td style="padding: 6px 0; color: #666;">Status</td><td style="padding: 6px 0;" th:text="${booking.status}">PENDING</td></tr>
   </table>
+
+  <div style="background: #fdf6ec; border-left: 4px solid #c97b3a; padding: 14px 16px; margin: 24px 0; border-radius: 6px;">
+    <p style="margin: 0; font-size: 14px;">
+      📎 <strong>Package brochure attached</strong> — full itinerary, inclusions, and gallery in PDF.
+    </p>
+  </div>
 
   <p style="margin-top: 24px;">Questions? Reply to this email or call us at <strong>+91 98765 43210</strong>.</p>
 

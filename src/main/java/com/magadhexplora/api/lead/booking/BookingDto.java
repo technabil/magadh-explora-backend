@@ -34,7 +34,16 @@ public class BookingDto {
     private String currency;
     private BigDecimal totalAmountLocal;
 
+    private String paymentMethod;
+
     private String status;
+    private String paymentStatus;
+    private String cancellationReason;
+    private String internalNotes;
+    private Instant cancelledAt;
+    private Instant confirmedAt;
+    private Instant paidAt;
+    private String viewToken;
     private Instant createdAt;
 
     public Long getId() { return id; }
@@ -70,8 +79,32 @@ public class BookingDto {
     public BigDecimal getTotalAmountLocal() { return totalAmountLocal; }
     public void setTotalAmountLocal(BigDecimal totalAmountLocal) { this.totalAmountLocal = totalAmountLocal; }
 
+    public String getPaymentMethod() { return paymentMethod; }
+    public void setPaymentMethod(String paymentMethod) { this.paymentMethod = paymentMethod; }
+
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+
+    public String getPaymentStatus() { return paymentStatus; }
+    public void setPaymentStatus(String paymentStatus) { this.paymentStatus = paymentStatus; }
+
+    public String getCancellationReason() { return cancellationReason; }
+    public void setCancellationReason(String cancellationReason) { this.cancellationReason = cancellationReason; }
+
+    public String getInternalNotes() { return internalNotes; }
+    public void setInternalNotes(String internalNotes) { this.internalNotes = internalNotes; }
+
+    public Instant getCancelledAt() { return cancelledAt; }
+    public void setCancelledAt(Instant cancelledAt) { this.cancelledAt = cancelledAt; }
+
+    public Instant getConfirmedAt() { return confirmedAt; }
+    public void setConfirmedAt(Instant confirmedAt) { this.confirmedAt = confirmedAt; }
+
+    public Instant getPaidAt() { return paidAt; }
+    public void setPaidAt(Instant paidAt) { this.paidAt = paidAt; }
+
+    public String getViewToken() { return viewToken; }
+    public void setViewToken(String viewToken) { this.viewToken = viewToken; }
 
     public Instant getCreatedAt() { return createdAt; }
     public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
@@ -89,7 +122,15 @@ public class BookingDto {
         d.totalAmountInr = e.getTotalAmountInr();
         d.currency = e.getCurrency();
         d.totalAmountLocal = e.getTotalAmountLocal();
+        d.paymentMethod = e.getPaymentMethod();
         d.status = e.getStatus();
+        d.paymentStatus = e.getPaymentStatus();
+        d.cancellationReason = e.getCancellationReason();
+        d.internalNotes = e.getInternalNotes();
+        d.cancelledAt = e.getCancelledAt();
+        d.confirmedAt = e.getConfirmedAt();
+        d.paidAt = e.getPaidAt();
+        d.viewToken = e.getViewToken();
         d.createdAt = e.getCreatedAt();
         return d;
     }
@@ -105,6 +146,7 @@ public class BookingDto {
         if (totalAmountInr != null) e.setTotalAmountInr(totalAmountInr);
         if (currency != null) e.setCurrency(currency);
         if (totalAmountLocal != null) e.setTotalAmountLocal(totalAmountLocal);
+        if (paymentMethod != null) e.setPaymentMethod(paymentMethod);
         return e;
     }
 }

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="${pkg.title} + ' — ' + ${brand}">Package Brochure</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 18mm 16mm;
+            @bottom-center {
+                content: element(footer);
+            }
+        }
+
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            color: #2a1f15;
+            font-size: 11pt;
+            line-height: 1.55;
+        }
+
+        h1, h2, h3 {
+            color: #b35900;
+            margin: 0 0 8px 0;
+        }
+        h1 { font-size: 28pt; line-height: 1.15; }
+        h2 { font-size: 16pt; margin-top: 18px; padding-bottom: 4px; border-bottom: 1px solid #e3d7c5; }
+        h3 { font-size: 13pt; margin-top: 14px; color: #6c2b00; }
+
+        p { margin: 0 0 8px 0; }
+
+        .hero {
+            position: relative;
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 14px;
+        }
+        .hero img { width: 100%; height: 220px; object-fit: cover; display: block; }
+
+        .badges {
+            margin: 0 0 10px 0;
+        }
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 999px;
+            font-size: 9pt;
+            font-weight: 700;
+            margin-right: 5px;
+            background: #fff3e0;
+            color: #b35900;
+            border: 1px solid #f0c899;
+        }
+        .badge.tier { background: #b35900; color: #ffffff; border-color: #b35900; }
+
+        .meta {
+            background: #faf4ec;
+            border-left: 4px solid #b35900;
+            padding: 10px 14px;
+            border-radius: 6px;
+            margin-bottom: 14px;
+        }
+        .meta-row {
+            display: block;
+            padding: 4px 0;
+        }
+        .meta-key {
+            display: inline-block;
+            min-width: 100px;
+            font-weight: 700;
+            color: #6c2b00;
+        }
+
+        .price-box {
+            background: linear-gradient(135deg, #b35900, #d97a17);
+            color: #ffffff;
+            padding: 14px 16px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        .price-box .label { font-size: 9pt; opacity: 0.85; text-transform: uppercase; letter-spacing: 1px; }
+        .price-box .amount { font-size: 24pt; font-weight: 700; margin-top: 4px; }
+        .price-box .strike { font-size: 11pt; text-decoration: line-through; opacity: 0.7; margin-left: 8px; }
+
+        .summary {
+            font-style: italic;
+            color: #4d3a26;
+            padding: 8px 12px;
+            border-left: 3px solid #d97a17;
+            background: #fffaf2;
+            margin-bottom: 14px;
+        }
+
+        ul.bullet { margin: 0 0 10px 0; padding-left: 18px; }
+        ul.bullet li { margin: 4px 0; }
+
+        ol.itinerary { list-style: none; counter-reset: day; padding-left: 0; margin: 0; }
+        ol.itinerary li {
+            counter-increment: day;
+            position: relative;
+            padding: 8px 0 8px 38px;
+            border-bottom: 1px dashed #e3d7c5;
+        }
+        ol.itinerary li:before {
+            content: counter(day);
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 28px; height: 28px; line-height: 28px;
+            background: #b35900;
+            color: #fff;
+            text-align: center;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 10pt;
+        }
+
+        table.gallery { width: 100%; border-collapse: separate; border-spacing: 6px; margin-top: 8px; }
+        table.gallery td { width: 25%; padding: 0; }
+        table.gallery img { width: 100%; height: 90px; object-fit: cover; border-radius: 6px; display: block; }
+
+        .chips span {
+            display: inline-block;
+            padding: 3px 9px;
+            margin: 2px 4px 2px 0;
+            background: #faf4ec;
+            border-radius: 4px;
+            font-size: 9pt;
+            color: #6c2b00;
+        }
+
+        .two-col { width: 100%; border-collapse: collapse; margin-top: 8px; }
+        .two-col td { vertical-align: top; padding: 0 8px 0 0; width: 50%; }
+        .two-col h3 { margin-top: 0; }
+
+        .footer {
+            position: running(footer);
+            font-size: 8pt;
+            color: #6e5b46;
+            text-align: center;
+            border-top: 1px solid #e3d7c5;
+            padding-top: 6px;
+        }
+        .footer a { color: #b35900; text-decoration: none; }
+
+        .no-break { page-break-inside: avoid; }
+    </style>
+</head>
+<body>
+
+<div class="hero" th:if="${heroUrl}">
+    <img th:src="${heroUrl}" alt="" />
+</div>
+
+<div class="badges">
+    <span th:if="${tierName}" class="badge tier" th:text="${tierName}">Tier</span>
+    <span th:each="t : ${themeNames}" class="badge" th:text="${t}">Theme</span>
+</div>
+
+<h1 th:text="${pkg.title}">Package Title</h1>
+
+<p class="summary" th:if="${pkg.summary}" th:text="${pkg.summary}">Short summary…</p>
+
+<table style="width:100%; border-collapse: collapse;">
+    <tr>
+        <td style="width: 60%; padding-right: 12px; vertical-align: top;">
+            <div class="meta">
+                <div class="meta-row" th:if="${pkg.durationDays != null}">
+                    <span class="meta-key">Duration</span>
+                    <span th:text="${pkg.durationDays} + ' Days'">N Days</span>
+                </div>
+                <div class="meta-row" th:if="${pkg.groupSizeMin != null}">
+                    <span class="meta-key">Group size</span>
+                    <span>
+                        <span th:text="${pkg.groupSizeMin}">2</span>
+                        <span th:if="${pkg.groupSizeMax != null}">–</span>
+                        <span th:if="${pkg.groupSizeMax != null}" th:text="${pkg.groupSizeMax}">15</span>
+                        <span th:unless="${pkg.groupSizeMax != null}">+</span>
+                        people
+                    </span>
+                </div>
+                <div class="meta-row" th:if="${pkg.rating != null}">
+                    <span class="meta-key">Rating</span>
+                    <span th:text="${#numbers.formatDecimal(pkg.rating, 1, 1)} + ' / 5 (' + ${pkg.reviewsCount} + ' reviews)'">4.8 / 5</span>
+                </div>
+                <div class="meta-row" th:if="${not #lists.isEmpty(destinationNames)}">
+                    <span class="meta-key">Destinations</span>
+                    <span th:text="${#strings.listJoin(destinationNames, ', ')}">Bodh Gaya, Nalanda</span>
+                </div>
+            </div>
+        </td>
+        <td style="width: 40%; vertical-align: top;">
+            <div class="price-box">
+                <div class="label">Starting from</div>
+                <div class="amount">
+                    ₹<span th:text="${#numbers.formatInteger(pkg.priceInr, 0, 'COMMA')}">0</span>
+                    <span class="strike" th:if="${pkg.originalPriceInr != null and pkg.originalPriceInr.compareTo(pkg.priceInr) > 0}">
+                        ₹<span th:text="${#numbers.formatInteger(pkg.originalPriceInr, 0, 'COMMA')}">0</span>
+                    </span>
+                </div>
+                <div class="label" style="margin-top: 4px;">per person</div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div th:if="${pkg.description}" class="no-break">
+    <h2>About this Tour</h2>
+    <p th:text="${pkg.description}">Description…</p>
+</div>
+
+<div th:if="${not #lists.isEmpty(itineraryLines)}">
+    <h2>Day-by-Day Itinerary</h2>
+    <ol class="itinerary">
+        <li th:each="line : ${itineraryLines}" th:text="${line}">Day note</li>
+    </ol>
+</div>
+
+<table class="two-col" th:if="${not #lists.isEmpty(inclusionsLines) or not #lists.isEmpty(exclusionsLines)}">
+    <tr>
+        <td th:if="${not #lists.isEmpty(inclusionsLines)}">
+            <h3>✓ Inclusions</h3>
+            <ul class="bullet">
+                <li th:each="i : ${inclusionsLines}" th:text="${i}">Item</li>
+            </ul>
+        </td>
+        <td th:if="${not #lists.isEmpty(exclusionsLines)}">
+            <h3>✕ Exclusions</h3>
+            <ul class="bullet">
+                <li th:each="x : ${exclusionsLines}" th:text="${x}">Item</li>
+            </ul>
+        </td>
+    </tr>
+</table>
+
+<div th:if="${not #lists.isEmpty(galleryUrls)}" class="no-break">
+    <h2>Gallery</h2>
+    <table class="gallery">
+        <tr>
+            <td th:each="img : ${galleryUrls}">
+                <img th:src="${img}" alt="" />
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="footer">
+    <strong th:text="${brand}">Magadh Explora</strong>
+    &nbsp;·&nbsp;
+    <a th:href="${siteUrl}" th:text="${siteUrl}">https://magadhexplora.com</a>
+    &nbsp;·&nbsp;
+    Prices indicative. Final pricing confirmed on booking.
+</div>
+
+</body>
+</html>

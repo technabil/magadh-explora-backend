@@ -1,19 +1,25 @@
 package com.magadhexplora.api.blog;
 
+import com.magadhexplora.api.catalog.category.CategoryEntity;
+import com.magadhexplora.api.catalog.category.CategoryRepository;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class BlogController {
 
     private final BlogRepository repo;
+    private final CategoryRepository categoryRepo;
 
-    public BlogController(BlogRepository repo) {
+    public BlogController(BlogRepository repo, CategoryRepository categoryRepo) {
         this.repo = repo;
+        this.categoryRepo = categoryRepo;
     }
 
     @GetMapping("/api/blogs")
@@ -50,6 +56,7 @@ public class BlogController {
         }
         BlogEntity e = new BlogEntity();
         dto.apply(e);
+        applyCategories(e, dto.getCategoryIds());
         return BlogDto.from(repo.save(e));
     }
 
@@ -58,6 +65,7 @@ public class BlogController {
         BlogEntity e = repo.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Blog not found"));
         dto.apply(e);
+        applyCategories(e, dto.getCategoryIds());
         return BlogDto.from(repo.save(e));
     }
 
@@ -68,6 +76,23 @@ public class BlogController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Blog not found");
         }
         repo.deleteById(id);
+    }
+
+    private void applyCategories(BlogEntity e, List<Long> categoryIds) {
+        if (categoryIds == null) {
+            // null = leave existing categories alone; pass [] to clear
+            return;
+        }
+        Set<CategoryEntity> resolved = new HashSet<>();
+        if (!categoryIds.isEmpty()) {
+            for (Long id : categoryIds) {
+                CategoryEntity c = categoryRepo.findById(id)
+                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                                "Unknown category id: " + id));
+                resolved.add(c);
+            }
+        }
+        e.setCategories(resolved);
     }
 
     private BlogEntity lookup(String slugOrId) {

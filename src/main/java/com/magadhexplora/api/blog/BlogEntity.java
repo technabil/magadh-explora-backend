@@ -1,10 +1,13 @@
 package com.magadhexplora.api.blog;
 
+import com.magadhexplora.api.catalog.category.CategoryEntity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "blogs")
@@ -45,6 +48,17 @@ public class BlogEntity {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private Instant updatedAt;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "blog_categories",
+            joinColumns = @JoinColumn(name = "blog_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private Set<CategoryEntity> categories = new HashSet<>();
+
+    public Set<CategoryEntity> getCategories() { return categories; }
+    public void setCategories(Set<CategoryEntity> categories) { this.categories = categories; }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

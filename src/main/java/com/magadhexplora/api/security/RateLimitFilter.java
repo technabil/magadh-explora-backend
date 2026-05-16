@@ -39,7 +39,9 @@ public class RateLimitFilter extends OncePerRequestFilter {
             "/api/contact",
             "/api/quote",
             "/api/bookings",
-            "/api/reviews"
+            "/api/bookings/lookup",
+            "/api/reviews",
+            "/api/leads/abandoned"
     );
 
     private final ConcurrentHashMap<String, AtomicReference<Bucket>> buckets = new ConcurrentHashMap<>();
