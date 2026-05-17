@@ -85,6 +85,39 @@ public class EmailService {
                 "mail/abandoned-lead-admin", ctx, null);
     }
 
+    /** Send the next 3-touch recovery email (touch = 1, 2, or 3). */
+    @Async("mailExecutor")
+    public void sendRecoveryTouch(AbandonedLeadEntity lead, int touch) {
+        if (lead.getEmail() == null || lead.getEmail().isBlank()) return;
+        if (touch < 1 || touch > 3) return;
+
+        String recoveryUrl = siteProps.publicUrlClean() + "/r/" + lead.getRecoveryToken();
+
+        Map<String, Object> ctx = new HashMap<>();
+        ctx.put("lead", lead);
+        ctx.put("brand", props.getBrand());
+        ctx.put("recoveryUrl", recoveryUrl);
+        ctx.put("siteUrl", siteProps.publicUrlClean());
+
+        String subject;
+        String template;
+        switch (touch) {
+            case 1 -> {
+                subject = "We saved your enquiry — " + props.getBrand();
+                template = "mail/recovery-touch1";
+            }
+            case 2 -> {
+                subject = "Still thinking about your Bihar trip?";
+                template = "mail/recovery-touch2";
+            }
+            default -> {
+                subject = "Last chance to complete your enquiry";
+                template = "mail/recovery-touch3";
+            }
+        }
+        send(lead.getEmail(), subject, template, ctx, null);
+    }
+
     @Async("mailExecutor")
     public void sendBookingCancellation(BookingEntity b) {
         Map<String, Object> ctx = new HashMap<>();

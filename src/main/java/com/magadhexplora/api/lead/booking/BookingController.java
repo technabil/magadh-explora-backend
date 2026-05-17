@@ -4,6 +4,7 @@ import com.magadhexplora.api.catalog.pkg.PackageEntity;
 import com.magadhexplora.api.catalog.pkg.PackageRepository;
 import com.magadhexplora.api.currency.CurrencyService;
 import com.magadhexplora.api.lead.StatusUpdateRequest;
+import com.magadhexplora.api.lead.abandoned.RecoveryAttributionService;
 import com.magadhexplora.api.mail.EmailService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -34,13 +35,16 @@ public class BookingController {
     private final PackageRepository packageRepo;
     private final CurrencyService currencyService;
     private final EmailService email;
+    private final RecoveryAttributionService recoveryAttribution;
 
     public BookingController(BookingRepository repo, PackageRepository packageRepo,
-                             CurrencyService currencyService, EmailService email) {
+                             CurrencyService currencyService, EmailService email,
+                             RecoveryAttributionService recoveryAttribution) {
         this.repo = repo;
         this.packageRepo = packageRepo;
         this.currencyService = currencyService;
         this.email = email;
+        this.recoveryAttribution = recoveryAttribution;
     }
 
     @PostMapping("/api/bookings")
@@ -63,6 +67,7 @@ public class BookingController {
 
         BookingEntity saved = repo.save(b);
         email.sendBookingEmails(saved);
+        recoveryAttribution.markConverted(saved.getEmail());
         return BookingDto.from(saved);
     }
 

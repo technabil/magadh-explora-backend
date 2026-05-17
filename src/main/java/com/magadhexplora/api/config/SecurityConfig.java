@@ -83,6 +83,8 @@ public class SecurityConfig {
                         "/api/bookings/lookup",
                         "/api/reviews",
                         "/api/leads/abandoned",
+                        "/api/leads/abandoned/recovery/**",
+                        "/r/**",
                         "/api/health",
                         "/api/public/**",
                         "/uploads/**",

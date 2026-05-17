@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>We saved your enquiry</title></head>
+<body style="font-family: Arial, Helvetica, sans-serif; color: #1a1a1a; max-width: 600px; margin: 0 auto; padding: 24px;">
+
+  <div style="border-bottom: 3px solid #c97b3a; padding-bottom: 12px; margin-bottom: 24px;">
+    <h1 style="margin: 0; font-size: 22px; color: #c97b3a;" th:text="${brand}">Magadh Explora</h1>
+  </div>
+
+  <p>Hi <strong th:text="${lead.name ?: 'there'}">there</strong>,</p>
+
+  <p>We noticed you were planning a Bihar journey with us but didn't get to finish. Don't worry — we've saved your details, so picking up where you left off is just one click away.</p>
+
+  <p style="text-align: center; margin: 32px 0;">
+    <a th:href="${recoveryUrl}"
+       style="display: inline-block; background: #c97b3a; color: #ffffff; text-decoration: none; padding: 12px 28px; border-radius: 6px; font-weight: 600;">
+      Continue your enquiry
+    </a>
+  </p>
+
+  <p>If you had a question that stopped you from going ahead, just reply to this email — a real human from our travel desk will help you sort it out.</p>
+
+  <p style="margin-top: 32px;">Safe travels,<br><span th:text="${brand}">Magadh Explora</span> team</p>
+
+  <p style="margin-top: 32px; font-size: 11px; color: #888; border-top: 1px solid #eee; padding-top: 16px;">
+    You're receiving this because you started an enquiry on
+    <a th:href="${siteUrl}" th:text="${siteUrl}" style="color: #888;">our site</a>.
+  </p>
+</body>
+</html>

@@ -37,6 +37,21 @@ public class AbandonedLeadEntity {
     @Column(columnDefinition = "TEXT")
     private String notes;
 
+    @Column(nullable = false)
+    private int attempts = 0;
+
+    @Column(name = "last_touched_at")
+    private Instant lastTouchedAt;
+
+    @Column(name = "next_touch_at")
+    private Instant nextTouchAt;
+
+    @Column(name = "last_touch_channel", length = 20)
+    private String lastTouchChannel;
+
+    @Column(name = "recovery_token", length = 64, unique = true)
+    private String recoveryToken;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private Instant createdAt;
@@ -74,4 +89,19 @@ public class AbandonedLeadEntity {
 
     public Instant getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(Instant updatedAt) { this.updatedAt = updatedAt; }
+
+    public int getAttempts() { return attempts; }
+    public void setAttempts(int attempts) { this.attempts = attempts; }
+
+    public Instant getLastTouchedAt() { return lastTouchedAt; }
+    public void setLastTouchedAt(Instant lastTouchedAt) { this.lastTouchedAt = lastTouchedAt; }
+
+    public Instant getNextTouchAt() { return nextTouchAt; }
+    public void setNextTouchAt(Instant nextTouchAt) { this.nextTouchAt = nextTouchAt; }
+
+    public String getLastTouchChannel() { return lastTouchChannel; }
+    public void setLastTouchChannel(String lastTouchChannel) { this.lastTouchChannel = lastTouchChannel; }
+
+    public String getRecoveryToken() { return recoveryToken; }
+    public void setRecoveryToken(String recoveryToken) { this.recoveryToken = recoveryToken; }
 }

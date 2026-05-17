@@ -28,6 +28,12 @@ public class AbandonedLeadDto {
     private Instant createdAt;
     private Instant updatedAt;
 
+    // Recovery sequence state — surfaced to admin so they know who's been touched
+    private int attempts;
+    private Instant lastTouchedAt;
+    private Instant nextTouchAt;
+    private String lastTouchChannel;
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -58,6 +64,18 @@ public class AbandonedLeadDto {
     public Instant getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(Instant updatedAt) { this.updatedAt = updatedAt; }
 
+    public int getAttempts() { return attempts; }
+    public void setAttempts(int attempts) { this.attempts = attempts; }
+
+    public Instant getLastTouchedAt() { return lastTouchedAt; }
+    public void setLastTouchedAt(Instant lastTouchedAt) { this.lastTouchedAt = lastTouchedAt; }
+
+    public Instant getNextTouchAt() { return nextTouchAt; }
+    public void setNextTouchAt(Instant nextTouchAt) { this.nextTouchAt = nextTouchAt; }
+
+    public String getLastTouchChannel() { return lastTouchChannel; }
+    public void setLastTouchChannel(String lastTouchChannel) { this.lastTouchChannel = lastTouchChannel; }
+
     public static AbandonedLeadDto from(AbandonedLeadEntity e) {
         AbandonedLeadDto d = new AbandonedLeadDto();
         d.id = e.getId();
@@ -70,6 +88,10 @@ public class AbandonedLeadDto {
         d.notes = e.getNotes();
         d.createdAt = e.getCreatedAt();
         d.updatedAt = e.getUpdatedAt();
+        d.attempts = e.getAttempts();
+        d.lastTouchedAt = e.getLastTouchedAt();
+        d.nextTouchAt = e.getNextTouchAt();
+        d.lastTouchChannel = e.getLastTouchChannel();
         return d;
     }
 

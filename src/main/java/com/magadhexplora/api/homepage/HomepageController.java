@@ -23,6 +23,7 @@ public class HomepageController {
 
     /** Public: active sections with item refs. */
     @GetMapping("/api/homepage")
+    @Transactional(readOnly = true)
     public List<HomepageSectionDto> publicLayout() {
         return repo.findByActiveTrueOrderByDisplayOrderAsc().stream()
                 .map(s -> HomepageSectionDto.from(s, true))
@@ -30,6 +31,7 @@ public class HomepageController {
     }
 
     @GetMapping("/api/admin/homepage")
+    @Transactional(readOnly = true)
     public List<HomepageSectionDto> adminLayout() {
         return repo.findAllByOrderByDisplayOrderAsc().stream()
                 .map(s -> HomepageSectionDto.from(s, true))

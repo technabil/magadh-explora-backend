@@ -43,7 +43,9 @@ public class SettingsController {
         repo.findAllById(java.util.List.of(
                 "currency.default", "currency.allowed",
                 "language.default", "language.allowed",
-                "pricing.markup.percent"
+                "pricing.markup.percent",
+                "theme.mode", "theme.primary", "theme.accent", "theme.gold",
+                "whatsapp.enabled", "whatsapp.number", "whatsapp.default_message"
         )).forEach(s -> out.put(s.getKey(), s.getValue()));
         return out;
     }

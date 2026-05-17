@@ -1,6 +1,7 @@
 package com.magadhexplora.api.lead.quote;
 
 import com.magadhexplora.api.lead.StatusUpdateRequest;
+import com.magadhexplora.api.lead.abandoned.RecoveryAttributionService;
 import com.magadhexplora.api.mail.EmailService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -14,10 +15,14 @@ public class QuoteController {
 
     private final QuoteRepository repo;
     private final EmailService email;
+    private final RecoveryAttributionService recoveryAttribution;
 
-    public QuoteController(QuoteRepository repo, EmailService email) {
+    public QuoteController(QuoteRepository repo,
+                           EmailService email,
+                           RecoveryAttributionService recoveryAttribution) {
         this.repo = repo;
         this.email = email;
+        this.recoveryAttribution = recoveryAttribution;
     }
 
     @PostMapping("/api/quote")
@@ -25,6 +30,7 @@ public class QuoteController {
     public QuoteDto submit(@Valid @RequestBody QuoteDto req) {
         QuoteEntity saved = repo.save(req.toEntity());
         email.sendQuoteEmails(saved);
+        recoveryAttribution.markConverted(saved.getEmail());
         return QuoteDto.from(saved);
     }
 

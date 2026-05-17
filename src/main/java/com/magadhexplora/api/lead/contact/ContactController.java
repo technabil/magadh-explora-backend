@@ -1,6 +1,7 @@
 package com.magadhexplora.api.lead.contact;
 
 import com.magadhexplora.api.lead.StatusUpdateRequest;
+import com.magadhexplora.api.lead.abandoned.RecoveryAttributionService;
 import com.magadhexplora.api.mail.EmailService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -14,10 +15,14 @@ public class ContactController {
 
     private final ContactRepository repo;
     private final EmailService email;
+    private final RecoveryAttributionService recoveryAttribution;
 
-    public ContactController(ContactRepository repo, EmailService email) {
+    public ContactController(ContactRepository repo,
+                             EmailService email,
+                             RecoveryAttributionService recoveryAttribution) {
         this.repo = repo;
         this.email = email;
+        this.recoveryAttribution = recoveryAttribution;
     }
 
     @PostMapping("/api/contact")
@@ -25,6 +30,7 @@ public class ContactController {
     public ContactDto submit(@Valid @RequestBody ContactDto req) {
         ContactEntity saved = repo.save(req.toEntity());
         email.sendContactEmails(saved);
+        recoveryAttribution.markConverted(saved.getEmail());
         return ContactDto.from(saved);
     }
 
