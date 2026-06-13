@@ -38,7 +38,7 @@ public class GeoService {
 
         try {
             String body = http.get()
-                    .uri("/json/{ip}?fields=status,country,countryCode,query", ip)
+                    .uri("/json/{ip}?fields=status,country,countryCode,regionName,city,query", ip)
                     .retrieve()
                     .body(String.class);
             JsonNode json = mapper.readTree(body);
@@ -53,6 +53,8 @@ public class GeoService {
                     CountryMaps.currencyFor(code),
                     CountryMaps.languageFor(code)
             );
+            out.setCity(json.path("city").asText(null));
+            out.setRegion(json.path("regionName").asText(null));
             cache.put(ip, new CacheEntry(out, Instant.now()));
             return out;
         } catch (Exception ex) {

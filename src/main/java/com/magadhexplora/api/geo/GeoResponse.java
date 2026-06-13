@@ -6,6 +6,8 @@ public class GeoResponse {
     private String country;
     private String currency;
     private String suggestedLang;
+    private String city;
+    private String region;
 
     public GeoResponse() {}
 
@@ -16,6 +18,12 @@ public class GeoResponse {
         this.currency = currency;
         this.suggestedLang = suggestedLang;
     }
+
+    public String getCity() { return city; }
+    public void setCity(String city) { this.city = city; }
+
+    public String getRegion() { return region; }
+    public void setRegion(String region) { this.region = region; }
 
     public String getIp() { return ip; }
     public void setIp(String ip) { this.ip = ip; }

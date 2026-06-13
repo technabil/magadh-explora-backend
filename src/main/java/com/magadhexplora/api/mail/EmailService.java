@@ -166,6 +166,26 @@ public class EmailService {
         }
     }
 
+    /**
+     * Fire-and-forget admin alert. Plain-HTML body so we don't need a Thymeleaf
+     * template per alert rule. Safe to call from scheduled jobs.
+     */
+    @Async("mailExecutor")
+    public void sendAdminAlert(String subject, String htmlBody) {
+        try {
+            MimeMessage msg = mailSender.createMimeMessage();
+            MimeMessageHelper h = new MimeMessageHelper(msg, false, StandardCharsets.UTF_8.name());
+            h.setFrom(props.getFrom());
+            h.setTo(props.getAdminTo());
+            h.setSubject("[" + props.getBrand() + " Alert] " + subject);
+            h.setText(htmlBody, true);
+            mailSender.send(msg);
+            log.info("Admin alert mail sent: {}", subject);
+        } catch (Exception ex) {
+            log.warn("Admin alert mail failed ({}): {}", subject, ex.toString());
+        }
+    }
+
     private void send(String to, String subject, String template,
                       Map<String, Object> model, Attachment attachment) {
         try {
